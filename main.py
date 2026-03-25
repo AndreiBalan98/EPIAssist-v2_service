@@ -1,10 +1,14 @@
+import os
+from dotenv import load_dotenv
 from fastapi import FastAPI
 from pydantic import BaseModel
 from openai import OpenAI
 
-app = FastAPI()
+load_dotenv()
+api_key = os.getenv("OPENAI_API_KEY")
 
-client = OpenAI(api_key="REMOVED")
+app = FastAPI()
+client = OpenAI(api_key=api_key)
 
 class MessageRequest(BaseModel):
     message: str
