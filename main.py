@@ -26,9 +26,9 @@ def ai(body: MessageRequest):
     embedding = client.embeddings.create(
         input=body.message,
         model="text-embedding-3-small" #text-embedding-3-large
-    )
+    ).data[0].embedding
 
     #3. retrieve top similar chunks
     #4. generate answer
 
-    return MessageResponse(message=str(embedding.data[0].embedding))
+    return MessageResponse(message=str(embedding))
