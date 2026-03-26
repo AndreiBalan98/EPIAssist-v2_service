@@ -43,7 +43,7 @@ def cosine_similarity(a: list[float], b: list[float]) -> float:
 def similarity(body: SimilarityRequest):
     embeddings_data = client.embeddings.create(
         input=body.strings,
-        model="text-embedding-3-small"
+        model="text-embedding-3-large" #text-embedding-3-small
     ).data
     embeddings = [e.embedding for e in embeddings_data]
 
@@ -67,7 +67,7 @@ def ai(body: MessageRequest):
     #2. convert to embedding
     embedding = client.embeddings.create(
         input=body.message,
-        model="text-embedding-3-small" #text-embedding-3-large
+        model="text-embedding-3-large" #text-embedding-3-small
     ).data[0].embedding
 
     #3. retrieve top similar chunks
