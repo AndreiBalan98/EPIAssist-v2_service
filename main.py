@@ -64,13 +64,17 @@ def similarity(body: SimilarityRequest):
 def ai(body: MessageRequest):
     
     #1. enhance prompt
+
     #2. convert to embedding
-    embedding = client.embeddings.create(
+    user_prompt_embedding = client.embeddings.create(
         input=body.message,
         model="text-embedding-3-large" #text-embedding-3-small
     ).data[0].embedding
 
     #3. retrieve top similar chunks
+    
+
     #4. generate answer
 
-    return MessageResponse(message=str(embedding))
+
+    return MessageResponse(message=str(user_prompt_embedding))
