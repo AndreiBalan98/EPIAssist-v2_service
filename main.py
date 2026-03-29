@@ -66,7 +66,7 @@ def ai(body: MessageRequest):
     #1. enhance prompt
 
     #2. convert to embedding
-    user_prompt_embedding = client.embeddings.create(
+    embedding = client.embeddings.create(
         input=body.message,
         model="text-embedding-3-large" #text-embedding-3-small
     ).data[0].embedding
