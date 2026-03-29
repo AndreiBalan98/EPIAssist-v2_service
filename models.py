@@ -23,6 +23,13 @@ class SimilarityResponse(BaseModel):
     results: list[SimilarityPair]
 
 
+class Chunk(BaseModel):
+    id: int
+    url: str
+    content: str
+    similarity: float
+
+
 class MessageRequest(BaseModel):
     message: str
 
