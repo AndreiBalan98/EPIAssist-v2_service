@@ -6,6 +6,7 @@ from utils import cosine_similarity
 router = APIRouter()
 
 SIMILARITY_THRESHOLD = 0.5
+CONTEXT_MAX_CHARS = 25000
 
 
 @router.post("/ai", response_model=list[Chunk])
@@ -36,6 +37,15 @@ def ai(body: MessageRequest):
             results.append(Chunk(id=row_id, url=url, content=content, similarity=sim))
 
     results.sort(key=lambda x: x.similarity, reverse=True)
+
+    # 3.5. build context
+    context = ""
+    for chunk in results:
+        entry = f"{chunk.url}\n{chunk.content}\n\n"
+        if len(context) + len(entry) > CONTEXT_MAX_CHARS:
+            break
+        context += entry
+    context = context.rstrip("\n")
 
     # 4. generate answer
 
