@@ -9,7 +9,7 @@ SIMILARITY_THRESHOLD = 0.5
 CONTEXT_MAX_CHARS = 25000
 
 
-@router.post("/ai", response_model=list[Chunk])
+@router.post("/ai", response_model=MessageResponse)
 def ai(body: MessageRequest):
 
     # 1. enhance prompt
@@ -48,5 +48,16 @@ def ai(body: MessageRequest):
     context = context.rstrip("\n")
 
     # 4. generate answer
+    prompt = (
+        f"You are a medical legislation agent. Your role is to answer questions strictly based on the provided context.\n\n"
+        f"User question: {body.message}\n\n"
+        f"Context:\n{context}\n\n"
+        f"Answer the user's question using only the information from the context above. Do not add information beyond what is provided."
+    )
 
-    return results
+    message = client.chat.completions.create(
+        model="gpt-4o-mini",
+        messages=[{"role": "user", "content": prompt}]
+    ).choices[0].message.content
+
+    return MessageResponse(message=message)
