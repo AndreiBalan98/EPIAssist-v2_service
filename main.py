@@ -77,4 +77,4 @@ def ai(body: MessageRequest):
     #4. generate answer
 
 
-    return MessageResponse(message=str(user_prompt_embedding))
+    return MessageResponse(message=str(embedding))
