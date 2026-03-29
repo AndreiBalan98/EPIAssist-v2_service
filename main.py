@@ -20,6 +20,14 @@ class MessageResponse(BaseModel):
     message: str
 
 
+class EmbeddingRequest(BaseModel):
+    text: str
+
+
+class EmbeddingResponse(BaseModel):
+    embedding: list[float]
+
+
 class SimilarityRequest(BaseModel):
     strings: list[str]
 
@@ -37,6 +45,15 @@ class SimilarityResponse(BaseModel):
 def cosine_similarity(a: list[float], b: list[float]) -> float:
     a, b = np.array(a), np.array(b)
     return float(np.dot(a, b) / (np.linalg.norm(a) * np.linalg.norm(b)))
+
+
+@app.post("/embedding", response_model=EmbeddingResponse)
+def embedding(body: EmbeddingRequest):
+    embedding = client.embeddings.create(
+        input=body.text,
+        model="text-embedding-3-large"
+    ).data[0].embedding
+    return EmbeddingResponse(embedding=embedding)
 
 
 @app.post("/similarity", response_model=SimilarityResponse)
