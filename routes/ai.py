@@ -124,8 +124,8 @@ def _log_conversation(
             with conn.cursor() as cur:
                 cur.execute(
                     "INSERT INTO conversations "
-                    "(user_prompt, enhanced_prompt, candidate_chunks, context_chunks, final_answer) "
-                    "VALUES (%s, %s, %s, %s, %s)",
+                    "(user_prompt, enhanced_prompt, candidate_chunks, context_chunks, final_answer, created_at) "
+                    "VALUES (%s, %s, %s, %s, %s, NOW())",
                     (
                         user_prompt,
                         enhanced_prompt,
